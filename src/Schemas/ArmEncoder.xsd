@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ArmEncoder 驱动：Channel 专属子元素 schema
+  ###############################################################################
+
+  命名空间：tags:ArmEncoder
+  对应运行时类型：ArmEncoderChannelDescriptor（Channels/ChannelDescriptor.cs）
+
+  本文件同时喂给三个消费者，改这一处即可全部生效：
+    1) 编辑器：NuGet 包经 buildTransitive targets 把它链接成消费项目的
+       Schemas/Drivers/ArmEncoder.xsd，在 <Project> 上声明
+       xmlns:d="tags:ArmEncoder" 后即可校验/补全 <d:Timeout> 这类驱动专属子元素。
+    2) 运行期：Schemas/ArmEncoderSchemaProvider.cs 从嵌入资源读出它，
+       交给 EnableXmlSchemaValidation() 构建的 XmlSchemaSet（核心 schema + 各驱动 schema 合并）。
+       注意：xsd 必须留在 csproj 的 <EmbeddedResource> 里，且文件名与 provider 的资源名一致。
+    3) WebUI 设计器：GET {prefix}/catalog 把本文件的 xs:annotation/xs:appinfo 内省成
+       驱动列表、通道字段表单与"额外属性"提示。**少了 <driver> 声明，驱动就不会出现在设计器里。**
+
+  用法（XML 里的前缀 d 只是本文档自己的选择，可以换成任意合法前缀）：
+    <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:noNamespaceSchemaLocation="Schemas/tagsproject.xsd"
+             xmlns:d="tags:ArmEncoder">
+      <Channel name="c1" driver="ArmEncoder">
+        <d:Timeout>00:00:10</d:Timeout>
+      </Channel>
+    </Project>
+
+  ###############################################################################
+  设计器元数据（xs:appinfo）
+  ###############################################################################
+  xs:appinfo 里可以放任意 XML，校验时被忽略；这些元素一律**按本地名**匹配，
+  与 xs:schema 上有没有默认 xmlns 无关。可用的元素：
+
+  <driver name="..." displayName="..." prefix="..."/>
+      name        必须与 ArmEncoderNames.DriverName **逐字符一致**（也就是 Channel/@driver 的取值）
+      displayName UI 上的显示名（缺省用 name）
+      prefix      设计器导出 XML 时使用的命名空间前缀；缺省取命名空间后缀（tags:xxx 变成 xxx）。
+                  想用短前缀就在 schema 上写 prefix="d"，并在项目 XML 里用同一个前缀。
+                  同一个项目里多个驱动不要共用同一前缀。
+
+  <tagAttribute .../> 与 <cbntAttribute .../>
+      驱动"额外认"的测点属性（Tag）与组合属性（TagCbnt）。XSD 1.0 不能给既有类型追加属性，
+      所以它们永远进不了核心 schema 的类型定义，运行期从 TagDescriptor.Extras /
+      TagCbntDescriptor.Extras 按属性名读取；核心 schema 靠 xs:anyAttribute 放行。
+      因此这里只是**给设计器看的声明**：写错不影响校验，只会让提示缺失或不准。
+      参数：name（必填，须与 Extras 的键逐字符一致）
+            kind（string / bool / number / enum，缺省按 type 推断）
+            type（仅作文档/推断用，如 positiveInteger）
+            label / order / group / placeholder / help / description / default
+            required（仅提示，设计器不会因此拒绝导出）
+            min / max / minLength / enumValues（逗号分隔）
+            appliesToTypes（逗号分隔的测点 type，如 "STR,JSON"；只有命中才显示）
+
+  <ui label="..." order="..." group="..." placeholder="..." help="..."/>
+      放进 xs:element / xs:complexType / xs:attribute 的 xs:annotation，
+      给设计器提供文案、排序与分组（order 越小越靠前）。
+  ###############################################################################
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="tags:ArmEncoder"
+           targetNamespace="tags:ArmEncoder"
+           elementFormDefault="qualified">
+
+  <!-- 设计器元数据：driver@name 必须与 ArmEncoderNames.DriverName 完全一致。
+       tagAttribute / cbntAttribute 示例见下方注释里的写法。 -->
+  <xs:annotation><xs:appinfo>
+    <driver name="ArmEncoder" displayName="ArmEncoder 驱动"/>
+
+    <!--
+      本模板的示例驱动只读通道的 Timeout，没有额外属性，所以这两类声明先注释掉。
+      你的驱动开始读 Extras 时按需打开（属性名必须与代码里读取的键一致）：
+
+      <tagAttribute name="maxlen" kind="number" type="positiveInteger" min="1" max="255"
+                    label="字符串最大长度" order="10" group="STR" required="true"
+                    appliesToTypes="STR" placeholder="1~255"
+                    help="只有 STR 测点用得到"/>
+
+      <cbntAttribute name="slot" kind="number" type="unsignedByte" label="槽位" order="1"/>
+    -->
+  </xs:appinfo></xs:annotation>
+
+  <!-- 通道专属子元素：一个全局元素对应 ArmEncoderChannelDescriptor 的一个属性。
+       运行期按**元素本地名**把它放进 TagChannelDescriptor.Extras（值就是该元素本身），
+       所以不声明也能跑，只是编辑器不认识它、设计器也不知道有这一项。 -->
+  <xs:element name="Timeout" type="xs:string">
+    <xs:annotation><xs:appinfo>
+      <ui label="超时" order="1" group="连接" placeholder="00:00:10"
+          help="TimeSpan 格式（如 00:00:30）；省略时通道默认 10 秒"/>
+    </xs:appinfo></xs:annotation>
+  </xs:element>
+
+  <!--
+    需要"字段组"（嵌套子元素）时改用 xs:complexType，并在 complexType 与其中的
+    xs:element / xs:attribute 上各自写 ui，设计器会渲染成可折叠的一组：
+
+    <xs:complexType name="HeartBeatType">
+      <xs:annotation><xs:appinfo><ui label="心跳" group="高级"/></xs:appinfo></xs:annotation>
+      <xs:sequence>
+        <xs:element name="Interval" type="xs:nonNegativeInteger" minOccurs="0">
+          <xs:annotation><xs:appinfo><ui label="间隔" order="1" placeholder="毫秒"/></xs:appinfo></xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    <xs:element name="HeartBeat" type="HeartBeatType">
+      <xs:annotation><xs:appinfo><ui label="心跳" order="2" group="高级"/></xs:appinfo></xs:annotation>
+    </xs:element>
+  -->
+
+</xs:schema>

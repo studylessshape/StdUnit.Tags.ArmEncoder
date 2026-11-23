@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="samples/ArmEncoder.Sample/ArmEncoder.Sample.csproj" />
+  <Project Path="src/StdUnit.Tags.ArmEncoder.csproj" />
+</Solution>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+		<ImplicitUsings >enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<OutputType>Library</OutputType>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<StdUnitTagsVersion>2.0.0-dev.261113.1152</StdUnitTagsVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="StdUnit.Tags" Version="$(StdUnitTagsVersion)" />
+		<PackageReference Include="System.IO.Ports" Version="4.5.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Schemas\ArmEncoder.xsd" />
+	</ItemGroup>
+
+	<!-- NuGet 包消费: 经 buildTransitive targets 注入消费项目 Schemas/Drivers/ArmEncoder.xsd。 -->
+	<ItemGroup>
+		<None Include="Schemas\StdUnit.Tags.ArmEncoder.targets" Pack="true" PackagePath="buildTransitive/StdUnit.Tags.ArmEncoder.targets" />
+		<None Include="Schemas\ArmEncoder.xsd" Pack="true" PackagePath="buildTransitive/Schemas/ArmEncoder.xsd" />
+	</ItemGroup>
+
+</Project>

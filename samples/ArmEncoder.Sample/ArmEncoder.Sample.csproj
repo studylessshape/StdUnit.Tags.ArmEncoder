@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<StdUnitTagsVersion>2.0.0-dev.261113.1152</StdUnitTagsVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="StdUnit.Tags" Version="$(StdUnitTagsVersion)" />
+		<PackageReference Include="StdUnit.Tags.WebUi" Version="$(StdUnitTagsVersion)" />
+		<PackageReference Include="StdUnit.Tags.S7" Version="$(StdUnitTagsVersion)" />
+		<PackageReference Include="StdUnit.Tags.SimpleFiles" Version="$(StdUnitTagsVersion)" />
+
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.29" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\StdUnit.Tags.ArmEncoder.csproj" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<None Update="Tags\index.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>
