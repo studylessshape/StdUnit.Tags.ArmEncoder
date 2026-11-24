@@ -17,18 +17,17 @@ internal class ArmEncoderDirectTagFactory
         // 你可以在这里实现你自己的地址转换逻辑，将用户传入原始地址转换为测点的标准化地址
         // descriptor.NormalizedAddress = transform(addr);
 
-
         var tagname = descriptor.TagName;
         var tagkind = descriptor.TagKind;
         // 在这里实现你自己的直接测点构造逻辑，判断依据可以是上面tagKind等标准属性，也可以是任何自定义属性
-        var tag = tagkind switch
+        return tagkind switch
         {
-            "your-tag-kind" => new ArmEncoderDirectTag(descriptor, channel, _container),
+            var k when k.Equals("bytes", StringComparison.OrdinalIgnoreCase) => new ArmEncoderBytesDirectTag(descriptor, channel, _container),
+            var k when k.Equals("str", StringComparison.OrdinalIgnoreCase) => new ArmEncoderStringDirectTag(descriptor, channel, _container),
             _ => throw new TagsProjectConfigurationException(
                 $"ArmEncoder 未预料到的测点种类={tagkind}",
                 $"Tag({tagname})")
         };
-        return tag;
     }
 
 }

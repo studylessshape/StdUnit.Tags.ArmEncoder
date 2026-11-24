@@ -11,7 +11,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="R3" Version="1.3.1" />
 		<PackageReference Include="StdUnit.Tags" Version="$(StdUnitTagsVersion)" />
+		<PackageReference Include="StdUnit.Tags.R3Extensions" Version="2.0.0-dev.261113.1152" />
 		<PackageReference Include="StdUnit.Tags.WebUi" Version="$(StdUnitTagsVersion)" />
 		<PackageReference Include="StdUnit.Tags.S7" Version="$(StdUnitTagsVersion)" />
 		<PackageReference Include="StdUnit.Tags.SimpleFiles" Version="$(StdUnitTagsVersion)" />

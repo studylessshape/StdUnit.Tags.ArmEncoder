@@ -67,7 +67,7 @@ public static class TagChannelDescriptor_ComExtensions
         int defaultBaudRate = 9600;
         Parity defaultParity = Parity.None;
         int defaultDataBits = 8;
-        StopBits defaultStopBits = StopBits.None;
+        StopBits defaultStopBits = StopBits.One;
         int defaultChannelCapacity = 1;
         var defaultAutoWriteCrc16 = true;
         var location = $"Channel({descriptor.Name})";

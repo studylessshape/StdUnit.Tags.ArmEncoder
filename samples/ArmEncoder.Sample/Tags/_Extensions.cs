@@ -12,21 +12,8 @@ public static class ServiceCollectionExtensions
     {
         services.AddTagsProjectServices(builder =>
         {
-            // S7 支持
-            builder.AddS7Support();
-
-            // 简单文件支持
-            builder.AddSimpleFilesChannel()
-                .AddJsonSerializerContext(MyJsonSerializerContext.Default)
-                .AddSimpleFilesDirectTagBuilder(
-                    configure: b => b.WithJsonTagFactory<MyJson>(),
-                    predicate: b => b.TagDescriptor.TagKind == "MyJson"
-                ) 
-                // ... 可以以类似手法注册其它特化的节点
-                // 内置的简单文件支持
-                .AddSimpleFilesDirectTagBuilder();
-
             builder.AddTagsStream(); // webui
+            builder.AddSimpleFilesSupport();
 
             builder.AddArmEncoderSupport();
         });

@@ -93,4 +93,14 @@ public static class ArmResponseParser
                 $"响应帧功能码不匹配：期望 0x{expected:X2}，实际 0x{frame[2]:X2}。");
         }
     }
+
+    public static ArmCommand GetFrameCommand(ReadOnlySpan<byte> frame)
+    {
+        if (frame.Length < 3)
+        {
+            throw new ArgumentOutOfRangeException("数组的长度小于3，无法获取到对应的命令");
+        }
+
+        return (ArmCommand)frame[2];
+    }
 }

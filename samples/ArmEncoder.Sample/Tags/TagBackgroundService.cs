@@ -37,7 +37,8 @@ class DemoBackgroundService: BackgroundService
             };
 
             var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
-            proj.Logicets.Add(new HeartBeatLogicet(proj, loggerFactory.CreateLogger<HeartBeatLogicet>()));
+            proj.Logicets.Add(new ArmLogicet(proj, "1#", loggerFactory.CreateLogger<ArmLogicet>()));
+            proj.Logicets.Add(new ArmLogicet(proj, "2#", loggerFactory.CreateLogger<ArmLogicet>()));
 
             return Task.CompletedTask;
         });

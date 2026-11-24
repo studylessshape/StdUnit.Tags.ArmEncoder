@@ -30,7 +30,7 @@ public class ArmEncoderChannelOption
     /// <summary>
     /// 停止位
     /// </summary>
-    public StopBits StopBits { get; set; }
+    public StopBits StopBits { get; set; } = StopBits.One;
 
     /// <summary>
     /// 为 True 时在写入值时，不需要自带 Crc16 的尾部校验码，而是由 Tag 在写入时自动计算。
