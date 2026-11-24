@@ -13,12 +13,14 @@ internal class ArmEncoderDirectTagFactory
 
     public ITag Create(TagDescriptor descriptor, ArmEncoderChannel? channel)
     {
-        var addr = descriptor.RawAddress;
-        // 你可以在这里实现你自己的地址转换逻辑，将用户传入原始地址转换为测点的标准化地址
-        // descriptor.NormalizedAddress = transform(addr);
-
         var tagname = descriptor.TagName;
         var tagkind = descriptor.TagKind;
+
+        if (descriptor.AccessMode != TagAccessMode.RO)
+        {
+            throw new TagsProjectConfigurationException("ArmEncoder 的测点仅支持只读(RO)模式，要写入命令时，需要赋值IArmEncoderTag.CommandValue，并调用ITag.WriteAsync", $"Tag({tagname})");
+        }
+
         // 在这里实现你自己的直接测点构造逻辑，判断依据可以是上面tagKind等标准属性，也可以是任何自定义属性
         return tagkind switch
         {
