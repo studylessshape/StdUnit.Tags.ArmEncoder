@@ -22,11 +22,6 @@ public abstract class ArmEncoderChannelBase<T> : ITagChannel
     protected readonly ILogger<ArmEncoderChannelBase<T>> _logger;
 
     /// <summary>
-    /// 换行符
-    /// </summary>
-    public string? NewLine { get; }
-
-    /// <summary>
     /// 串口工厂委托。若设置，<see cref="CreateSerialPort(ArmEncoderChannelOption)"/> 会优先调用此委托创建串口句柄。
     /// </summary>
     public Func<ArmEncoderChannelOption, ISerialPortHandle>? SerialPortFactory { get; set; }
