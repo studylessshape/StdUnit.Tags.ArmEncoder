@@ -7,11 +7,11 @@
 		<IsAotCompatible>True</IsAotCompatible>
 		<OutputType>Library</OutputType>
 		<LangVersion>latest</LangVersion>
-		<Version>$(StdUnitTagsVersion)</Version>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<StdUnitTagsVersion>2.0.0-dev.261113.1152</StdUnitTagsVersion>
+		<Version>$(StdUnitTagsVersion)</Version>
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
 	</PropertyGroup>
 	
