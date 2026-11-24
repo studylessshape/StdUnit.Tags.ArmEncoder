@@ -53,6 +53,8 @@ namespace StdUnit.Tags.ArmEncoder.Channels
 
             var bytes = new byte[canRead];
             var readed = _port.Read(bytes, 0, bytes.Length);
+            if (readed == 0) return null;
+
             return bytes[..readed];
         }
     }

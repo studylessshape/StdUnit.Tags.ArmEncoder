@@ -62,18 +62,55 @@ public static class ArmFrame
     /// <summary>
     /// 获取指定命令的响应帧总长度（字节）。
     /// </summary>
-    public static int GetResponseLength(ArmCommand command) => command switch
+    /// <exception cref="ArgumentOutOfRangeException">命令码未知。</exception>
+    public static int GetResponseLength(ArmCommand command) =>
+        TryGetResponseLength((byte)command, out var length)
+            ? length
+            : throw new ArgumentOutOfRangeException(nameof(command), command, "未知的命令码。");
+
+    /// <summary>
+    /// 尝试获取指定功能码的响应帧总长度（字节）。
+    /// 用于从字节流中组帧：功能码未知时返回 <c>false</c>，调用方应继续向后寻找包头。
+    /// </summary>
+    /// <param name="command">功能码原始字节。</param>
+    /// <param name="length">响应帧总长度（含 Header、Address、CMD 与 CRC16 两字节）。</param>
+    public static bool TryGetResponseLength(byte command, out int length)
     {
-        ArmCommand.GetEncoderData => 18,
-        ArmCommand.GetAbsoluteAngle => 8,
-        ArmCommand.GetEncoderSpeed => 7,
-        ArmCommand.GetDisplacement => 14,
-        ArmCommand.GetSoftwareVersion => 7,
-        ArmCommand.InitZeroAngle => 8,
-        ArmCommand.InitZeroDisplacement => 13,
-        ArmCommand.InitProgrammableAddress => 6,
-        ArmCommand.SetAddress => 6,
-        ArmCommand.ReadAddress => 6,
-        _ => throw new ArgumentOutOfRangeException(nameof(command), command, "未知的命令码。"),
-    };
+        switch ((ArmCommand)command)
+        {
+            case ArmCommand.GetEncoderData:
+                length = 18;
+                return true;
+            case ArmCommand.GetAbsoluteAngle:
+                length = 8;
+                return true;
+            case ArmCommand.GetEncoderSpeed:
+                length = 7;
+                return true;
+            case ArmCommand.GetDisplacement:
+                length = 14;
+                return true;
+            case ArmCommand.GetSoftwareVersion:
+                length = 7;
+                return true;
+            case ArmCommand.InitZeroAngle:
+                length = 8;
+                return true;
+            case ArmCommand.InitZeroDisplacement:
+                length = 13;
+                return true;
+            case ArmCommand.InitProgrammableAddress:
+                length = 6;
+                return true;
+            case ArmCommand.SetAddress:
+                length = 6;
+                return true;
+            case ArmCommand.ReadAddress:
+                length = 6;
+                return true;
+            default:
+                length = 0;
+                return false;
+        }
+    }
 }

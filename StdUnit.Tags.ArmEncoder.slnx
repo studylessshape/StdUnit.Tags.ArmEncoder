@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/docs/">
+    <File Path="docs/通信协议.xlsx" />
+  </Folder>
   <Project Path="samples/ArmEncoder.Sample/ArmEncoder.Sample.csproj" />
   <Project Path="src/StdUnit.Tags.ArmEncoder.csproj" />
 </Solution>
