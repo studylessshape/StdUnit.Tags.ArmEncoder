@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 namespace StdUnit.Tags.ArmEncoder.Channels;
 
 /// <summary>
-/// 构建 <see cref="ArmEncoderTagChannel"/>
+/// 构建 <see cref="ArmEncoderChannel"/>
 /// </summary>
 internal class ArmEncoderChannelFactory : ITagChannelFactory
 {

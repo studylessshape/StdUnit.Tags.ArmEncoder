@@ -30,6 +30,9 @@ public record ArmSoftwareVersion(ushort Version);
 /// <param name="Flag">执行结果：0 成功，其他为错误。</param>
 public record ArmZeroAngleResult(ushort CurrentAngle, byte Flag)
 {
+    /// <summary>
+    /// 是否成功
+    /// </summary>
     public bool IsSuccess => Flag == ArmProtocolConstants.FlagSuccess;
 }
 
@@ -41,6 +44,9 @@ public record ArmZeroDisplacementResult(long Displacement);
 /// <param name="Flag">执行结果：0 成功，其他为错误。</param>
 public record ArmCommandResult(byte Flag)
 {
+    /// <summary>
+    /// 是否成功
+    /// </summary>
     public bool IsSuccess => Flag == ArmProtocolConstants.FlagSuccess;
 }
 

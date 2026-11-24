@@ -94,6 +94,12 @@ public static class ArmResponseParser
         }
     }
 
+    /// <summary>
+    /// 获取分片对应的命令
+    /// </summary>
+    /// <param name="frame"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static ArmCommand GetFrameCommand(ReadOnlySpan<byte> frame)
     {
         if (frame.Length < 3)

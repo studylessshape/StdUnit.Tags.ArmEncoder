@@ -9,7 +9,6 @@ namespace StdUnit.Tags.ArmEncoder.Channels
     /// <remarks>
     /// 注意：<see cref="InnerPort"/> 属性不在 <see cref="ISerialPortHandle"/> 接口中，
     /// 因此接口层不泄露 <see cref="SerialPort"/> 类型。
-    /// <see cref="ScriptBasedComChannel{T}"/> 可通过向下转型获取真实端口用于脚本引擎。
     /// </remarks>
     public sealed class SerialPortAdapter : ISerialPortHandle
     {
@@ -46,6 +45,7 @@ namespace StdUnit.Tags.ArmEncoder.Channels
         /// <inheritdoc/>
         public void Dispose() => _port.Dispose();
 
+        /// <inheritdoc/>
         public byte[]? Read()
         {
             var canRead = _port.BytesToRead;

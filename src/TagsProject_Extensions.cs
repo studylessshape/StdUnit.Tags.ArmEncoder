@@ -6,9 +6,11 @@ using StdUnit.Tags.ArmEncoder.Schemas;
 
 namespace StdUnit.Tags.ArmEncoder;
 
+/// <summary>
+/// ArmEncoder 服务注册拓展方法
+/// </summary>
 public static class TagsProject_Extensions
 {
-
     #region 基本函数
     /// <summary>
     /// 注册 ArmEncoder 通道

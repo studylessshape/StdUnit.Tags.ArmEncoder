@@ -3,7 +3,7 @@ using System.Reflection;
 namespace StdUnit.Tags.ArmEncoder.Schemas;
 
 /// <summary>
-/// UsbKeyboardCodeScanner XSD Schema Provider
+/// ArmEncoder XSD Schema Provider
 /// </summary>
 public sealed class ArmEncoderSchemaProvider : ITagsProjectSchemaProvider
 {
