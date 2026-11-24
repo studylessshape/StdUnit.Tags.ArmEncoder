@@ -1,7 +1,6 @@
 using ArmEncoder.Sample.Tags;
 using Microsoft.AspNetCore.Mvc;
 using StdUnit.Tags;
-using StdUnit.Tags.ArmEncoder.DirectTags;
 using StdUnit.Tags.ArmEncoder.Protocol;
 
 namespace ArmEncoder.Sample.Controller
