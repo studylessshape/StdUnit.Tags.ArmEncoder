@@ -2,16 +2,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net10.0</TargetFrameworks>
-		<ImplicitUsings >enable</ImplicitUsings>
+		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<IsAotCompatible>True</IsAotCompatible>
 		<OutputType>Library</OutputType>
 		<LangVersion>latest</LangVersion>
+		<Version>$(StdUnitTagsVersion)</Version>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<StdUnitTagsVersion>2.0.0-dev.261113.1152</StdUnitTagsVersion>
+		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
 		<PackageReference Include="StdUnit.Tags" Version="$(StdUnitTagsVersion)" />
 		<PackageReference Include="System.IO.Ports" Version="4.5.0" />

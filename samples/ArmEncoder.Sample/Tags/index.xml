@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project>
+<Project xmlns:arm="tags:ArmEncoder">
 	<Channel name="Arm1" driver="ArmEncoder">
-		<Port>COM6</Port>
+		<arm:Port>COM6</arm:Port>
 	</Channel>
 	<Channel name="Arm2" driver="ArmEncoder">
-		<Port>COM7</Port>
+		<arm:Port>COM8</arm:Port>
 	</Channel>
 
 	<Channel name="file" driver="SimpleFiles">

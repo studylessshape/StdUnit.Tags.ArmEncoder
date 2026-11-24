@@ -83,12 +83,26 @@
   <!-- 通道专属子元素：一个全局元素对应 ArmEncoderChannelDescriptor 的一个属性。
        运行期按**元素本地名**把它放进 TagChannelDescriptor.Extras（值就是该元素本身），
        所以不声明也能跑，只是编辑器不认识它、设计器也不知道有这一项。 -->
-  <xs:element name="Timeout" type="xs:string">
-    <xs:annotation><xs:appinfo>
-      <ui label="超时" order="1" group="连接" placeholder="00:00:10"
-          help="TimeSpan 格式（如 00:00:30）；省略时通道默认 10 秒"/>
-    </xs:appinfo></xs:annotation>
-  </xs:element>
+  <!-- System.IO.Ports.Parity -->
+  <xs:simpleType name="ParityType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None"/>
+      <xs:enumeration value="Odd"/>
+      <xs:enumeration value="Even"/>
+      <xs:enumeration value="Mark"/>
+      <xs:enumeration value="Space"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- System.IO.Ports.StopBits -->
+  <xs:simpleType name="StopBitsType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None"/>
+      <xs:enumeration value="One"/>
+      <xs:enumeration value="Two"/>
+      <xs:enumeration value="OnePointFive"/>
+    </xs:restriction>
+  </xs:simpleType>
 
   <!--
     需要"字段组"（嵌套子元素）时改用 xs:complexType，并在 complexType 与其中的
@@ -106,5 +120,26 @@
       <xs:annotation><xs:appinfo><ui label="心跳" order="2" group="高级"/></xs:appinfo></xs:annotation>
     </xs:element>
   -->
+  <xs:element name="Port" type="xs:string"> <!-- "COM1" 形式的字符串 -->
+    <xs:annotation><xs:appinfo><ui label="端口名" order="1" group="连接" placeholder="COM1"/></xs:appinfo></xs:annotation>
+  </xs:element>
+  <xs:element name="BaudRate" type="xs:int">
+    <xs:annotation><xs:appinfo><ui label="波特率" order="2" group="连接" placeholder="115200"/></xs:appinfo></xs:annotation>
+  </xs:element>
+  <xs:element name="Parity" type="ParityType">
+    <xs:annotation><xs:appinfo><ui label="校验位" order="3" group="连接" help="默认 None"/></xs:appinfo></xs:annotation>
+  </xs:element>
+  <xs:element name="DataBits" type="xs:int">
+    <xs:annotation><xs:appinfo><ui label="数据位" order="4" group="连接" help="默认 8"/></xs:appinfo></xs:annotation>
+  </xs:element>
+  <xs:element name="StopBits" type="StopBitsType">
+    <xs:annotation><xs:appinfo><ui label="停止位" order="5" group="连接" help="默认 One"/></xs:appinfo></xs:annotation>
+  </xs:element>
+  <xs:element name="AutoWriteCrc16" type="xs:boolean">
+    <xs:annotation><xs:appinfo><ui label="自动填充Crc16字节" order="9" group="高级" help="默认 True"/></xs:appinfo></xs:annotation>
+  </xs:element>
+  <xs:element name="ChannelCapacity" type="xs:positiveInteger">
+    <xs:annotation><xs:appinfo><ui label="通道容量" order="10" group="高级" help="默认 1"/></xs:appinfo></xs:annotation>
+  </xs:element>
 
 </xs:schema>

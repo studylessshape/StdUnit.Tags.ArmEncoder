@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using StdUnit.ArmEncoder.Schemas;
 using StdUnit.Tags.ArmEncoder.Channels;
 using StdUnit.Tags.ArmEncoder.DirectTags;
+using StdUnit.Tags.ArmEncoder.Schemas;
 
 namespace StdUnit.Tags.ArmEncoder;
 
