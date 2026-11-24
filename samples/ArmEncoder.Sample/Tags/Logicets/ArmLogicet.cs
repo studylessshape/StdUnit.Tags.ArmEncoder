@@ -25,7 +25,7 @@ namespace ArmEncoder.Sample.Tags.Logicets
             commandTag.Watch()
                 .Subscribe((e) =>
                 {
-                    if (e.NewValue is string str && !string.IsNullOrEmpty(str))
+                    if (e.Kind == TagSyncEventArgs.Kinds.Written && e.NewValue is string str && !string.IsNullOrEmpty(str))
                     {
                         logger.LogInformation("[{source}] 发送命令: {command}", deviceNo, str);
                     }
@@ -33,14 +33,14 @@ namespace ArmEncoder.Sample.Tags.Logicets
             dataTag.Watch()
                 .Subscribe((e) =>
                 {
-                    if (e.NewValue is string str)
+                    if (e.Kind != TagSyncEventArgs.Kinds.Read)
                     {
-                        logger.LogInformation("[{source}] 接收数据: {command}", deviceNo, str);
+                        return;
                     }
 
-                    if (e.NewValue is byte[] bytes)
+                    if (e.NewValue is not null)
                     {
-                        logger.LogInformation("[{source}] 接收数据: [{command}]", deviceNo, string.Join(", ", bytes));
+                        logger.LogInformation("[{source}] 接收数据: {command}", deviceNo, e.NewValue);
                     }
                 });
         }
