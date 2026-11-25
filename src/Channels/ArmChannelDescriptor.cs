@@ -64,12 +64,12 @@ public static class TagChannelDescriptor_ComExtensions
             return d;
         }
 
-        int defaultBaudRate = 9600;
+        int defaultBaudRate = 115200;
         Parity defaultParity = Parity.None;
         int defaultDataBits = 8;
         StopBits defaultStopBits = StopBits.One;
-        int defaultChannelCapacity = 1;
         var defaultAutoWriteCrc16 = true;
+        int defaultChannelCapacity = 1;
         var location = $"Channel({descriptor.Name})";
 
         var port = !descriptor.Extras.TryGetValue(nameof(ArmChannelDescriptor.Option.Port), out var comPort) ?
