@@ -6,8 +6,12 @@ namespace StdUnit.Tags.ArmEncoder.DirectTags
     public interface IArmEncoderTag
     {
         /// <summary>
-        /// 需要写入的编码器命令，在写入完成后会置为空
+        /// <para>写入命令，类似 <see cref="ITag.WriteAsync(CancellationToken)"/>。</para>
+        /// <para>在测点循环的外部，推荐在 <see cref="ITagsProject.WriteIntent(string, TagGrpWriteIntent, out Task)"/> 中调用，以防止死锁。</para>
         /// </summary>
-        byte[]? CommandValue { get; set; }
+        /// <param name="command"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task WriteCommand(byte[] command, CancellationToken ct = default);
     }
 }

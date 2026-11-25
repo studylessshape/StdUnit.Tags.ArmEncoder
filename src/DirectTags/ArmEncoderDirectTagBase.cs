@@ -19,7 +19,7 @@ internal abstract class ArmEncoderDirectTagBase<T> : Tag<T, ArmEncoderChannel>, 
     {
     }
 
-    public virtual byte[]? CommandValue { get; set; }
+    protected readonly SemaphoreSlim writeCmdSlim = new SemaphoreSlim(1, 1);
 
     /// <inheritdoc/>
     public override async Task ReadAsync(CancellationToken ct)
@@ -41,14 +41,20 @@ internal abstract class ArmEncoderDirectTagBase<T> : Tag<T, ArmEncoderChannel>, 
     /// <inheritdoc/>
     public override async Task WriteAsync(CancellationToken ct)
     {
+        throw new NotImplementedException("编码器测点不支持直接调用写入方法，请使用 IArmEncoderTag.WriteCommand");
+    }
+
+    /// <inheritdoc/>
+    public async Task WriteCommand(byte[] command, CancellationToken ct = default)
+    {
         await this._bubbleChannel.EnsureConnectedAsync(force: false, ct);
 
-        if (CommandValue is null || CommandValue.Length == 0)
+        if (command is null || command.Length == 0)
         {
             return;
         }
 
-        var commandVal = CommandValue;
+        var commandVal = command;
         if (!Crc16.Verify(commandVal) && _bubbleChannel.Descriptor.ToArmChannelDescriptor().Option.AutoWriteCrc16)
         {
             commandVal = Crc16.Append(commandVal);
@@ -56,7 +62,5 @@ internal abstract class ArmEncoderDirectTagBase<T> : Tag<T, ArmEncoderChannel>, 
         await _bubbleChannel.WriteAsync(commandVal, 0, commandVal.Length);
         Timestamp = DateTime.UtcNow;
         this.NotifyTagWritten(commandVal);
-
-        CommandValue = null;
     }
 }
