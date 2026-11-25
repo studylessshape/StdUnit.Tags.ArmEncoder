@@ -262,7 +262,7 @@ public abstract class ArmEncoderChannelBase<T> : ITagChannel
         {
             return false;
         }
-        this._logger.LogInformation("通道({ChannelName})收到编码器输入：{input}", this.ChannelName(), input);
+        _logger.LogDebug("通道({ChannelName})收到编码器输入：{input}", this.ChannelName(), input);
         return true;
     }
 
