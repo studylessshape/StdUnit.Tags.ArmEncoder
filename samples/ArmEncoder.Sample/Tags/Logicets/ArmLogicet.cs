@@ -55,10 +55,9 @@ namespace ArmEncoder.Sample.Tags.Logicets
             {
                 string hex = Regex.Replace(commandVal, "[^0-9A-Fa-f]", "");
                 byte[] bytes = Convert.FromHexString(hex);
-                armTag.CommandValue = bytes;
                 commandTag.Value = "";
 
-                await dataTag.WriteAsync(ct);
+                await armTag.WriteCommand(bytes, ct);
             }
         }
     }
